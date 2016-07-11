@@ -53,65 +53,18 @@ $(document).ready(function () {
         height_box_sup = (box_sachet_height * (1 - ratioinf));
     }
 
-    $(".vignette-arome").on('click', function () {
-        var id = matchid($(this).attr('id'));
-        var findding = -1;
-        for (i = 0; i < melange.arome.length; i++) {
-            if (melange.arome[i].id == id[0]) {
-                findding = i;
-            }
-        }
-        if (findding !== -1 && melange.arome[findding].quantite < 3) {
-            melange.arome[findding].quantite++;
-            $("#box-arome .panel-body #quantite_arome" + id).prepend("<i id=\"quant_" + id + "_aro_" + melange.arome[findding].quantite + "\" class=\"glyphicon glyphicon-tint green-inf\"></i>");
-        }
-        if (melange.arome.length < 3) {
-            if (findding === -1) {
-                melange.arome.push({id: id[0], quantite: 1});
-                var dom_export = $("#arome-item" + id).clone().attr({'id': 'arome-item-new' + id, 'class': 'new_arome col-xs-4 col-sm-4 col-md-4 col-lg-4'});
-                dom_export.find(("img")).attr('id', 'arome-image-new' + id);
-                $("#box-arome .panel-body").append(dom_export);
-                $("#box-arome #arome-item-new" + id).prepend("<div class=\"text-center\" id=\"quantite_arome" + id + "\"><i id=\"quant_" + id + "_aro_1\" class=\"glyphicon glyphicon-tint green-inf\"></i></div>");
-            }
-        }
-        stat();
-    });
-
-    $('#box-arome').on('click', '.new_arome', function () {
-        var id = matchid($(this).attr('id'));
-        var findding = -1;
-        for (i = 0; i < melange.arome.length; i++) {
-            if (melange.arome[i].id == id[0]) {
-                findding = i;
-            }
-        }
-        if (findding == -1) {
-            alert('erreur');
-            return false;
-        }
-        if (melange.arome[findding].quantite <= 1) {
-            melange.arome.splice(findding, 1);
-            $("#arome-item-new" + id).remove();
-        }
-        else {
-            $("#quant_" + id + "_aro_" + melange.arome[findding].quantite).remove();
-            melange.arome[findding].quantite--;
-        }
-        stat();
-    });
-
 // --------TEST--------  lire array de commande 
     $("#box-sachet").on('click', function () {
         console.log(melange);
         console.log(inf_empty);
     });
 
-//initialise drag sur la barre ratio sup/thé
+//initialise drag sur la barre ratio sup/inf
     $("#half-sachet").draggable({
         axis: "y",
         containment: "parent"
     });
-//gestion du drag sur la barre ratio sup/thé
+//gestion du drag sur la barre ratio sup/inf
     $("#half-sachet").on('drag', function (event) {
         size_inf($(this));
     });
@@ -122,7 +75,7 @@ $(document).ready(function () {
         stat();
     });
 
-    //gestion du ratio thé/sup
+    //gestion du ratio inf/sup
     function size_inf(element) {
         var taille_sachet = ($('#box-clear').height());
         var top_barre = (element.position()['top']);
@@ -134,7 +87,7 @@ $(document).ready(function () {
         sachet_sup_size = parseFloat(box_sachet_height * (1 - ratioinf));
         //$('#infs-empty').height((inf_empty * 100) + "%");
     }
-    //ajuste barre ratio sup/thé en cas de resize
+    //ajuste barre ratio sup/inf en cas de resize
     function re_size_inf(element) {
         element.css('top', $('#box-sachet-sup').height() + 'px');
     }
@@ -150,7 +103,7 @@ $(document).ready(function () {
     });
 
     var id_inf_move;
-    //id du thé en mouvement
+    //id du inf en mouvement
 
     //var inf_in_melange = [];
     $("#box-sachet-inf").droppable({
@@ -208,7 +161,7 @@ $(document).ready(function () {
         }
     });
 
-    //génère dom pour l'inserer dans le sachet de thé après un drag/drop valide
+    //génère dom pour l'inserer dans le sachet de inf après un drag/drop valide
     function gen_dom_inf(id, name_inf, quantite, slideinf) {
         inf_empty -= quantite;
         var slide;
@@ -225,18 +178,18 @@ $(document).ready(function () {
         return dom;
     }
 
-//gestion du drag sur la barre ratio thés
+//gestion du drag sur la barre ratio infs
     $("#container-infs").on('drag', ".slideinf", function (event, ui) {
         size_infs($(this));
     });
 
-//contole erreur browser du drag sur la barre ratio thés
+//contole erreur browser du drag sur la barre ratio infs
     $("#container-infs").on('dragstop', ".slideinf", function (event, ui) {
         size_infs($(this));
         stat();
     });
 
-    //gestion du ratio thé/sup
+    //gestion du ratio inf/sup
     function size_infs(element) {
         var top_barre = (element.position()['top']);
         var container_infs = ($('#container-infs').height());
@@ -472,7 +425,7 @@ $(document).ready(function () {
         return dom;
     }
 
-    //gestion du ratio thé/sup
+    //gestion du ratio inf/sup
     function size_sups(element, id) {
         //top barre => distance du top de l'sup en deplacement en px
         var top_barre = (element.position()['top']);
