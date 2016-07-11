@@ -1,5 +1,5 @@
 
-Modelisation  d'un container contenant des elements fluides. Les niveaux de chaques éléments sont ajustables.
+Ce script permet de créer un container contenant des elements fluides. Les niveaux de chaques éléments sont ajustables.
 
 ### Bibliotèque externe
 Jquery UI 1.11
